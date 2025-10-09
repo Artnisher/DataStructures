@@ -41,12 +41,13 @@
 #define COURSE_NUMBER     "CS227" /* PCC assigned course number       */
 #define PROGRAM_NUMBER    "3"     /* Teacher asigned program number   */
 #define LAST_NAME         "Chira" /* The programer's last name        */
-#define QUIT              0       /* Quit program                     */
 #define DATA_ALLOC_ERR    1       /* Error code if malloc fails       */
 #define END_OF_STRING     '\0'    /* End of string marker             */
 #define MAX_CUSTOMER      100     /* Maximum number of customers      */
 #define MIN_CUSTOMER      2       /* Minimum number of customers      */
 #define MAX_NAME_LENGTH   20      /* Maximum length of a name         */
+#define MIN_NAME_LENGTH   2       /* Minimum length of a name         */
+#define QUIT              0       /* Quit program                     */
 
 
 /**********************************************************************/
@@ -57,16 +58,16 @@ void print_heading();
 void print_instructions();
   /* Print brief instruction of the program's purpose before each run */
 int  get_num_of_customers();
-  /* Ask user how many values they want to enter with validation      */
-void get_customers(float *p_start, int quantity);
+  /*      */
+void get_customers(int customer, int quantity);
   /* Read values and convert negatives to positives immediately       */
-void clean_up_names(float *p_start, int quantity);
+void clean_up_names(int customer, int quantity);
   /* Sort the array into descending order using selection sort        */ 
   /* implemented with pointer aritmetic                               */
-void sort_customers(float *p_start, int quantity);
+void sort_customers(int customer, int quantity);
   /* Print sorted values, if consecutive values are equal, mark them  */
   /* as duplicate for clarity                                         */
-float print_customers(float *p_start, int quantity);
+void print_customers(int customer, int quantity);
   /* Return the sum of all values                                     */
 
 /**********************************************************************/
@@ -74,51 +75,42 @@ float print_customers(float *p_start, int quantity);
 /**********************************************************************/
 int main(void)
 {
-   int   quantity;  /* Number of data values entered by the user      */
-   p_instruct_costumer_data_base;
-   /*taks in main*?
-
-   while loop
-   printf("\n\n\n");
+   int   quantity,  /* Number of data values entered by the user      */
+         p_instruct_costumer_data_base, 
+         customer;
+   /*Task one Print heading */
    print_heading();
-
-   /* Repeat until user decides to quit                               */
-   while (print_instructions(), (quantity = get_quantity()) 
-          != QUIT_VALUE)
+   printf("\n\n\n");
+   /* Task two, while loop */
+   while (print_instructions(), (quantity = get_number_of_customers()) != QUIT)
    {
-       /* Allocate memory for the data values otherwise               */
-       /* terminate the program                                       */
-       p_data = (float *)malloc(sizeof(*p_data) * quantity);
+       /* Task three malloc, allocate memory...and abort if.... */
+      if((p_instruct_costumer_data_base = (int *)malloc(sizeof
+        (p_instruct_costumer_data_base) * quantity)) ==NULL)
+      {
+        printf("\n Error #%d: Unable to allocate memory for data.", 
+              DATA_ALLOC_ERR);
+        printf("\n Program is aborting.\n\n");
+  
+        exit (DATA_ALLOC_ERR);
+      }
 
-       if (p_data == NULL)
-       {
-           printf("\nError #%d: Unable to allocate memory for data.", 
-                  ALLOC_ERROR_CODE);
-           printf("\nProgram is terminating.\n\n");
-
-           exit  (ALLOC_ERROR_CODE);
-       }
-
-       /* get data and convert negatives                              */
-       get_data(p_data, quantity);
-       /* Sort the array into descending order                        */
-       sort_desc_data(p_data, quantity);
-       /* Print the sorted data with duplicates flagged               */
-       print_sorted_data(p_data, quantity);
-       /* Compute and print the total sum                             */
-       {
-           total = get_sum(p_data, quantity);
-           printf("                   ---------");
-           printf("\n                 %9.2f total\n", total);
-       }
-
-       /* Free the memory before next loop iteration                  */
-       free(p_data);
    }
 
-   /*print a goodbye message and terminate the program                */
+   
+   /* task four, call functions */
+   get_customers(customer, quantity);
+   clean_up_names(customer, quantity);
+   sort_customers(customer, quantity);
+   
+   /* Task five, print customers */
+   print_customers(customer, quantity);
+   
+   /* Task six, free database */
+   free(customer);
+
+   /* Task seven, print goodbye message */
    printf("\nThanks for processing data. Have a nice day! :-)\n");
-   printf("\n\n\n\n");
    return 0;
 }
 
@@ -140,124 +132,78 @@ void print_heading()
 /**********************************************************************/
 void print_instructions()
 {
-   printf("\nThis program processes experimental scientific data.");
-   printf("\n----------------------------------------------------");
+   printf("\nThis program allows you to input customers which owe\n");
+   printf("you money (your accounts receivable), and manage these\n");
+   printf("accounts in a database.  You will enter the following:\n");
+   printf("    Customer last name (%d - %d characters)\n", MAX_NAME_LENGTH, 
+           MIN_NAME_LENGTH);
+   printf(" Amount the customer owes (to the exact cent)\n");
+   printf(" Customer priority (1=VIP, 2=Important, 3=Regular)\n");
+   printf("From %d to %d customers may be processed.\n", MIN_CUSTOMER, 
+           MAX_CUSTOMER); 
    return;
 }
 
 /**********************************************************************/
-/*              Get the quantity of experimental scientific data      */
+/*                    Get the number of customers                     */
 /**********************************************************************/
-int get_quantity()
+int get_number_of_customers()
 {
-   int quantity;
+   int customers_number,
+       quantity;  
 
    do 
    {
-       printf("\nHow many data values are there (%d to %d, %d=quit): ",
-               MIN_DATA_COUNT, MAX_DATA_COUNT, QUIT_VALUE);
-       scanf ("%d", &quantity);
+       printf("\n Get the customers for the database\n");
+       printf("------------------------------------------------------");
+       printf("How many customers do you have (%d to %d, 0=%d):", MIN_CUSTOMER, 
+               MAX_CUSTOMER, QUIT);
+       scanf ("%d", &customers_number);
         
    }
-   while ((quantity != QUIT_VALUE) && 
-          (quantity < MIN_DATA_COUNT || quantity > MAX_DATA_COUNT));
+   while ((customers_number != QUIT) && 
+          (customers_number < MIN_CUSTOMER || customers_number > MAX_CUSTOMER));
+          
+          quantity = customers_number;
 
-   return quantity;
+   return quantity ;
 }
 
 /**********************************************************************/
-/*                           Get Data Values                          */
+/*                           Get customers                            */
 /**********************************************************************/
-void get_data(float *p_start, int quantity)
+void get_customers(customer, p_customer, quantity)
 {
-    float *p_data;
-    for (p_data = p_start; p_data < p_start + quantity; ++p_data)
-    {
-        printf("    Enter data value %d: ", (int)(p_data - p_start) + 1);
-        scanf("%f", p_data);
-    
-        if (*p_data < 0.0f)
-        {
-            printf("        Negative %.2f converted to positive %.2f\n", 
-                   *p_data, -*p_data);
-            *p_data = -*p_data;
-        }
-    }
-    return;
+  struct p_customer
+  {
+    char name[MAX_NAME_LENGTH + 1];
+    float salary;
+    int priority;
+  }
+
+  for(customer = 0;customer < quantity; quantity++);
+     printf("Customer number %d: \n", quantity);
+     printf("Enter the customer's last name: ");
+     scanf(" %s", p_customer->name);
+     printf("Enter the amount owed: ");
+     scanf(" %f", p_customer->salary);
+     printf("Enter the customer priority (1-3): ");
+     scanf(" %d", p_customer->priority);  
+  return;
 }
 
-/**********************************************************************/
-/*       Sort the scientific data to put it into descending order     */
-/**********************************************************************/
-void sort_desc_data(float *p_start, int quantity)
-{
-   float *current_position, 
-         *scan_position, 
-         *largest_position;
 
-    for (current_position = p_start; 
-         current_position < p_start + quantity - 1; 
-         ++current_position)
-    {
-        largest_position = current_position;
 
-        for (scan_position = current_position + 1; 
-             scan_position < p_start + quantity; 
-             ++scan_position)
-        {   
-            if (*scan_position   > *largest_position)
-                largest_position = scan_position;
-        }    
-             
-        if  (largest_position != current_position) 
-        {
-            float temp         = *current_position;
-            *current_position  = *largest_position;
-            *largest_position  = temp;
-        }
-    }
-    return;
-}
+/**********************************************************************/
+/*            */
+/**********************************************************************/
+void sort_customers(customer, quantity)
 
 
 /**********************************************************************/
 /*                          Print Sorted Data                         */
 /**********************************************************************/
-void print_sorted_data(float *p_begin, int quantity)
+void print_customers(customer, quantity)
 {
-    float *p_sorted_data;
-          
-    printf("\nThe data in descending order (with duplicates noted):");
-    printf("\n-----------------------------------------------------");
-          
-    for   (p_sorted_data = p_begin; p_sorted_data < p_begin + quantity; 
-          ++p_sorted_data)
-    {
-        printf("\n                 %9.2f", *p_sorted_data);
-              
-        if    (p_sorted_data > p_begin && *p_sorted_data == 
-               *(p_sorted_data - 1))
-        {
-           printf(" (duplicate)");
-        }
-    }
-    printf("\n");
 
-    return;
-}
-
-/**********************************************************************/
-/*                            Get the sum                             */
-/**********************************************************************/
-float get_sum(float *p_start, int quantity)
-{
-    float  sum = 0.0f,
-           *p_current_data;
-          
-    for    (p_current_data = p_start; p_current_data < p_start + quantity; 
-           ++p_current_data)
-           
-           sum += *p_current_data;
-           
-    return sum;
 }

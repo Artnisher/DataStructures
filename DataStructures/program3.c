@@ -215,7 +215,9 @@ void sort_desc_data(float *p_start, int quantity)
       }
 
       if(p_largest_data != NULL)
+      {
          *p_largest_data = 0.0f;
+      }
    }
 
    /* Copy experimental scientific data sorted into descending mode    */
