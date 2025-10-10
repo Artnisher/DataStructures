@@ -49,6 +49,15 @@
 #define MIN_NAME_LENGTH   2       /* Minimum length of a name         */
 #define QUIT              0       /* Quit program                     */
 
+/**********************************************************************/
+/*                           Program Structures                       */
+/**********************************************************************/
+struct Customer
+{
+    char  name[MAX_NAME_LENGTH + 1]; /* Customer's last name           */
+    int   priority;                  /* Customer's priority level      */
+    float salary;                    /* Customer's salary              */
+};
 
 /**********************************************************************/
 /*                        Function Prototypes                         */
@@ -58,16 +67,15 @@ void print_heading();
 void print_instructions();
   /* Print brief instruction of the program's purpose before each run */
 int  get_num_of_customers();
-  /*      */
-void get_customers(int customer, int quantity);
+  /* Get the quantity of customers with validation                    */
+void get_customers(p_struct_costumer_data_base, quantity);
   /* Read values and convert negatives to positives immediately       */
-void clean_up_names(int customer, int quantity);
-  /* Sort the array into descending order using selection sort        */ 
+//void clean_up_names(); 9
+  /* Sort the array into descending order using selection sort        */
   /* implemented with pointer aritmetic                               */
-void sort_customers(int customer, int quantity);
+//void sort_customers();
   /* Print sorted values, if consecutive values are equal, mark them  */
-  /* as duplicate for clarity                                         */
-void print_customers(int customer, int quantity);
+//void print_customers();
   /* Return the sum of all values                                     */
 
 /**********************************************************************/
@@ -75,40 +83,44 @@ void print_customers(int customer, int quantity);
 /**********************************************************************/
 int main(void)
 {
-   int   quantity,  /* Number of data values entered by the user      */
-         p_instruct_costumer_data_base, 
-         customer;
-   /*Task one Print heading */
+
+   int   quantity;  /* Number of data values entered by the user      */
+   struct Customer *p_struct_costumer_data_base;
+
+   /*Task one, Print heading */
    print_heading();
    printf("\n\n\n");
-   /* Task two, while loop */
-   while (print_instructions(), (quantity = get_number_of_customers()) != QUIT)
-   {
-       /* Task three malloc, allocate memory...and abort if.... */
-      if((p_instruct_costumer_data_base = (int *)malloc(sizeof
-        (p_instruct_costumer_data_base) * quantity)) ==NULL)
-      {
-        printf("\n Error #%d: Unable to allocate memory for data.", 
-              DATA_ALLOC_ERR);
-        printf("\n Program is aborting.\n\n");
-  
-        exit (DATA_ALLOC_ERR);
-      }
 
+   print_instructions();
+   /* Task two, while loop */
+   while (quantity = get_num_of_customers(), quantity != 0 )
+{
+  /* Task three, malloc allocate memory...and abort if.... */
+    if((p_struct_costumer_data_base = (int *)malloc(sizeof (*p_struct_costumer_data_base) * quantity)) ==NULL)
+    {
+      printf("\n Error #%d: Unable to allocate memory for data.", 
+              DATA_ALLOC_ERR);
+      printf("\n Program is aborting.\n\n");
+  
+    exit (DATA_ALLOC_ERR);
+    }
+    
+    /* task four, call functions */
+    get_customers(p_struct_costumer_data_base, quantity);
+
+    sort_customers(&p_struct_costumer_data_base, quantity);//
+   
+      /* Task five, print customers */
+      //print_customers(&p_struct_costumer_data_base, quantity);//
+   
+      /* Task six, free database */
+      //free(&p_struct_costumer_data_base);//
+
+
+    free(p_struct_costumer_data_base);
    }
 
    
-   /* task four, call functions */
-   get_customers(customer, quantity);
-   clean_up_names(customer, quantity);
-   sort_customers(customer, quantity);
-   
-   /* Task five, print customers */
-   print_customers(customer, quantity);
-   
-   /* Task six, free database */
-   free(customer);
-
    /* Task seven, print goodbye message */
    printf("\nThanks for processing data. Have a nice day! :-)\n");
    return 0;
@@ -133,13 +145,13 @@ void print_heading()
 void print_instructions()
 {
    printf("\nThis program allows you to input customers which owe\n");
-   printf("you money (your accounts receivable), and manage these\n");
-   printf("accounts in a database.  You will enter the following:\n");
+   printf(" you money (your accounts receivable), and manage these\n");
+   printf(" accounts in a database.  You will enter the following:\n");
    printf("    Customer last name (%d - %d characters)\n", MAX_NAME_LENGTH, 
            MIN_NAME_LENGTH);
    printf(" Amount the customer owes (to the exact cent)\n");
    printf(" Customer priority (1=VIP, 2=Important, 3=Regular)\n");
-   printf("From %d to %d customers may be processed.\n", MIN_CUSTOMER, 
+   printf(" From %d to %d customers may be processed.\n", MIN_CUSTOMER, 
            MAX_CUSTOMER); 
    return;
 }
@@ -147,63 +159,38 @@ void print_instructions()
 /**********************************************************************/
 /*                    Get the number of customers                     */
 /**********************************************************************/
-int get_number_of_customers()
+int get_num_of_customers()
 {
-   int customers_number,
-       quantity;  
-
+  int quantity;
    do 
    {
        printf("\n Get the customers for the database\n");
-       printf("------------------------------------------------------");
-       printf("How many customers do you have (%d to %d, 0=%d):", MIN_CUSTOMER, 
+       printf("------------------------------------------------------\n");
+       printf("How many customers do you have (%d to %d, 0=%d): ", MIN_CUSTOMER, 
                MAX_CUSTOMER, QUIT);
-       scanf ("%d", &customers_number);
-        
-   }
-   while ((customers_number != QUIT) && 
-          (customers_number < MIN_CUSTOMER || customers_number > MAX_CUSTOMER));
-          
-          quantity = customers_number;
+       scanf ("%d", &quantity);
+   /* while this condition is false */
+   } while ((quantity < MIN_CUSTOMER || quantity > MAX_CUSTOMER) && quantity != QUIT);
 
-   return quantity ;
+   return quantity;
 }
-
 /**********************************************************************/
 /*                           Get customers                            */
 /**********************************************************************/
-void get_customers(customer, p_customer, quantity)
+void get_customers(struct Customer *p_struct_costumer_data_base, int quantity)
 {
-  struct p_customer
+  for(int count = 0; count < quantity; count++)
   {
-    char name[MAX_NAME_LENGTH + 1];
-    float salary;
-    int priority;
-  }
+     printf("Customer number %d: \n", count + 1);
 
-  for(customer = 0;customer < quantity; quantity++);
-     printf("Customer number %d: \n", quantity);
      printf("Enter the customer's last name: ");
-     scanf(" %s", p_customer->name);
+     scanf(" %s", p_struct_costumer_data_base->name);
      printf("Enter the amount owed: ");
-     scanf(" %f", p_customer->salary);
+     scanf(" %f", &p_struct_costumer_data_base->salary);
      printf("Enter the customer priority (1-3): ");
-     scanf(" %d", p_customer->priority);  
+     scanf(" %d", &p_struct_costumer_data_base->priority);
+     
+  }
   return;
 }
 
-
-
-/**********************************************************************/
-/*            */
-/**********************************************************************/
-void sort_customers(customer, quantity)
-
-
-/**********************************************************************/
-/*                          Print Sorted Data                         */
-/**********************************************************************/
-void print_customers(customer, quantity)
-{
-
-}
