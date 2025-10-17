@@ -60,5 +60,8 @@
   "editor.inlineSuggest.edits.renderSideBySide": "never",
   "github.copilot.nextEditSuggestions.allowWhitespaceOnlyChanges": false,
   "github.copilot.nextEditSuggestions.enabled": false,
-  "github.copilot.nextEditSuggestions.fixes": false
+  "github.copilot.nextEditSuggestions.fixes": false,
+  "files.associations": {
+    "typeinfo": "c"
+  }
 }

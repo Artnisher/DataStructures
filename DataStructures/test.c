@@ -50,3 +50,39 @@ float division(float numero1, float numero2)
 	return resultado;
 }
 
+
+
+#include <string.h>
+
+struct Customer {
+    char  name[50];
+    float amount;
+    int   priority;
+};
+
+/* 
+   Ordena los clientes por nombre (A-Z)
+   Si los nombres son iguales, desempata por prioridad (1-3)
+*/
+void sort_customers_by_name(struct Customer *customer_list, int total_customers)
+{
+    struct Customer temp_customer;  // variable temporal para intercambiar registros
+
+    for (int current_index = 0; current_index < total_customers - 1; current_index++)
+    {
+        for (int next_index = current_index + 1; next_index < total_customers; next_index++)
+        {
+            int name_comparison = strcmp(customer_list[current_index].name,
+                                         customer_list[next_index].name);
+
+            // Si el nombre actual va después alfabéticamente, o es igual pero prioridad mayor, intercambiamos
+            if (name_comparison > 0 ||
+               (name_comparison == 0 && customer_list[current_index].priority > customer_list[next_index].priority))
+            {
+                temp_customer = customer_list[current_index];
+                customer_list[current_index] = customer_list[next_index];
+                customer_list[next_index] = temp_customer;
+            }
+        }
+    }
+}
