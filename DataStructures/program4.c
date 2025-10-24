@@ -68,12 +68,12 @@ void print_instructions();
   /* Print brief instruction of the program's purpose before each run */
 int  get_num_of_customers();
   /* Get the quantity of customers with validation                    */
-void get_customers(p_struct_customer_data_base, quantity);
+void get_customers(struct Customer *p_struct_customer_data_base, int quantity);
   /* Read values and convert negatives to positives immediately       */
 void clean_up_names();
   /* Sort the array into descending order using selection sort        */
   /* implemented with pointer aritmetic                               */
-void sort_customers(p_struct_customer_data_base, quantity);
+void sort_customers(struct Customer *p_struct_customer_data_base, int quantity);
   /* Print sorted values, if consecutive values are equal, mark them  */
 //void print_customers();
   /* Return the sum of all values                                     */
@@ -96,7 +96,7 @@ int main(void)
    while (quantity = get_num_of_customers(), quantity != 0 )
 {
   /* Task three, malloc allocate memory...and abort if.... */
-    if((p_struct_customer_data_base = (int *)malloc(sizeof (*p_struct_customer_data_base) * quantity)) ==NULL)
+    if((p_struct_customer_data_base = (struct *)malloc(sizeof (*p_struct_customer_data_base) * quantity)) ==NULL)
     {
       printf("\n Error #%d: Unable to allocate memory for data.", 
               DATA_ALLOC_ERR);
@@ -107,9 +107,7 @@ int main(void)
     
     /* task four, call functions */
     get_customers(p_struct_customer_data_base, quantity);
-
     free(p_struct_customer_data_base);
-
     sort_customers(p_struct_customer_data_base, quantity);
    
     /* Task five, print customers */
@@ -119,6 +117,7 @@ int main(void)
 
    /* Task seven, print goodbye message */
    printf("\nThanks for processing data. Have a nice day! :-)\n");
+   printf("\n\n\n\n\n\n");
    return 0;
 }
 
@@ -197,10 +196,14 @@ void get_customers(struct Customer *p_struct_customer_data_base, int quantity)
 }
 
 /**********************************************************************/
-/*                           Sort customers                            */
+/*                           Sort customers                           */
 /**********************************************************************/
 void sort_customers(struct Customer *p_struct_customer_data_base, int quantity)
 {
-  struct Customer p_struct_customer_data_base->name[0] = toupper(struct Customer p_struct_customer_data_base->name[0]);
+  struct Customer p_struct_customer_data_base->name[0] = 
+  toupper(struct Customer p_struct_customer_data_base->name[0]);
+  char *p_fast,
+       *p_slow;
+  struct Customer *p_customer_temp;
 
-} 
+  for(p_customer_temp = p_struct_customer_data_base; (p_customer_temp - p_struct_customer_data_base) < quantity;
