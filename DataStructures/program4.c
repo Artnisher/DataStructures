@@ -96,7 +96,8 @@ int main(void)
    while (quantity = get_num_of_customers(), quantity != 0 )
 {
   /* Task three, malloc allocate memory...and abort if.... */
-    if((p_struct_customer_data_base = (struct *)malloc(sizeof (*p_struct_customer_data_base) * quantity)) ==NULL)
+    if((p_struct_customer_data_base = (struct Customer*)
+       malloc(sizeof (*p_struct_customer_data_base) * quantity)) ==NULL)
     {
       printf("\n Error #%d: Unable to allocate memory for data.", 
               DATA_ALLOC_ERR);
@@ -200,10 +201,18 @@ void get_customers(struct Customer *p_struct_customer_data_base, int quantity)
 /**********************************************************************/
 void sort_customers(struct Customer *p_struct_customer_data_base, int quantity)
 {
-  struct Customer p_struct_customer_data_base->name[0] = 
-  toupper(struct Customer p_struct_customer_data_base->name[0]);
-  char *p_fast,
-       *p_slow;
-  struct Customer *p_customer_temp;
+    for (int i = 0; i < quantity; i++) {
+        char *p_fast = p_struct_customer_data_base[i].name;
+        while (*p_fast != END_OF_STRING) 
+        {
+            *p_fast = tolower(*p_fast);
+            p_fast++;
+        }
+    }
+    p_fast = '\0';
+    return;
+}
 
-  for(p_customer_temp = p_struct_customer_data_base; (p_customer_temp - p_struct_customer_data_base) < quantity;
+/**********************************************************************/
+/*                           Print Database                           */
+/**********************************************************************/
