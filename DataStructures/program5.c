@@ -10,10 +10,11 @@
 
 /**********************************************************************/
 /*                                                                    */
-/* I pledge  all of the lines  in this C program  are my own original */
-/* work, and none of the lines in this C program have been copied     */
-/* from anyone else, unless I was specifically authorized to do so by */
-/* my CS227 instructor.                                               */
+/* I pledge tis assignment is my own first time work.                 */
+/* I pledge I did not copy or try to copy any code from the internet. */
+/* I pledge I did not copy or try to copy any code from anyone else.  */
+/* I pledge I did not attepmt to give code to anyone else on this.    */
+/* I understand if I violate this pledge I will receive a 0 grade.    */
 /*                                                                    */
 /*                                                                    */
 /*                      Signed: _____________________________________ */
@@ -23,14 +24,13 @@
 
 /**********************************************************************/
 /*                                                                    */
-/* This program recursively determines the sum of all even whole      */ 
-/* numbers within a specified inclusive range. The user provides the  */
-/* starting and ending values of the range, and the program validates */
-/* the input before proceeding with the calculation.                  */
-/*                                                                    */
-/* The recursive function performs successive calls until the range   */
-/* limit is reached, accumulating the total of even values. The result*/
-/* is then displayed along with the corresponding range information.  */
+/* This program recursively calculates the sum of all even whole      */
+/* numbers within a specified range, inclusive of both endpoints.     */
+/* The user enters the starting and ending values, which are validated*/
+/* before the calculation begins. The recursive function makes        */
+/* successive calls until the range limit is reached, accumulating    */
+/* the total of all even values. The final sum and range information  */
+/* are then displayed.                                                */
 /*                                                                    */
 /**********************************************************************/
 
