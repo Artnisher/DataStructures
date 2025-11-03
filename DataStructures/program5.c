@@ -167,7 +167,7 @@ void get_range(int *p_start_range, int *p_end_range)
                 MIN_VALUE, MAX_VALUE);
         scanf ("%d", p_end_range);
     }
-    while (*p_end_range   < MIN_VALUE || *p_end_range   > MAX_VALUE);
+    while (*p_end_range < MIN_VALUE || *p_end_range > MAX_VALUE);
 
     printf("\nProcessing the range %d to %d: \n", *p_start_range, 
            *p_end_range);
